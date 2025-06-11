@@ -6,7 +6,7 @@ export type Query = Record<string, ApiUrlPart>;
 
 type InternalApiResponse<TResult> = ApiResponse<TResult> | ErrorResponse;
 
-export async function httpFetch<TResponse>(options: RequestOptions | undefined, input: RequestInfo, method: 'POST' | 'PUT' | 'DELETE', body: Record<string, unknown>): Promise<ApiResponse<TResponse>> {
+export async function httpFetch<TResponse>(options: RequestOptions | undefined, input: RequestInfo, method: 'POST' | 'PUT' | 'DELETE', body: Record<string, unknown>): Promise<TResponse> {
     return await apiFetch<TResponse>(options, input, {
         method,
         body: JSON.stringify(body),
@@ -16,7 +16,7 @@ export async function httpFetch<TResponse>(options: RequestOptions | undefined, 
     });
 }
 
-export async function apiFetch<TResponse>(options: RequestOptions | undefined, input: RequestInfo, init?: RequestInit): Promise<ApiResponse<TResponse>> {
+export async function apiFetch<TResponse>(options: RequestOptions | undefined, input: RequestInfo, init?: RequestInit): Promise<TResponse> {
     const computedFetch = options?.fetch ?? fetch;
     const response = await computedFetch(input, init);
     if (!response.ok) {
@@ -24,7 +24,7 @@ export async function apiFetch<TResponse>(options: RequestOptions | undefined, i
     }
     const json = await response.json() as InternalApiResponse<TResponse>;
     if (json.Code === 0) {
-        return json as ApiResponse<TResponse>;
+        return (json as ApiResponse<TResponse>).Context;
     } else {
         throw new ApiResponseError(undefined, json as ErrorResponse);
     }

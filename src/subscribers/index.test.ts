@@ -6,29 +6,25 @@ const send = new SendClient(testApiConfig);
 
 test('get all - should return result', async () => {
     const response = await send.subscribers.fromList(testConfig.existingListId);
-    expect(response.Code).toBe(0);
-    expect(response.Context?.Subscribers.length).toBeGreaterThan(0);
+    expect(response?.Subscribers.length).toBeGreaterThan(0);
 });
 
 test('get subscribed - should return result', async () => {
     const response = await send.subscribers.fromList(testConfig.existingListId, 'Subscribed');
-    expect(response.Code).toBe(0);
-    expect(response.Context?.Subscribers.length).toBeGreaterThan(0);
+    expect(response?.Subscribers.length).toBeGreaterThan(0);
 });
 
 
 test('get unsubscribed - should return empty result', async () => {
     const response = await send.subscribers.fromList(testConfig.existingListId, 'Unsubscribed');
-    expect(response.Code).toBe(0);
-    for (const subscriber of response.Context?.Subscribers ?? []) {
+    for (const subscriber of response?.Subscribers ?? []) {
         expect(subscriber.SubscribeTypeValue).toBe('Unsubscribed');
     }
 });
 
 test('find by existing email - should return result', async () => {
     const response = await send.subscribers.findByEmail(testConfig.existingListId, testConfig.existingEmail);
-    expect(response.Code).toBe(0);
-    expect(response.Context?.Email).toBe(testConfig.existingEmail);
+    expect(response?.Email).toBe(testConfig.existingEmail);
 });
 
 test('find by non-existing email - should throw error', async () => {
@@ -53,11 +49,10 @@ test('add - unsubscribe - should return result', async () => {
             Tags: ['Tag1', 'Tag2'],
             HasExternalDoubleOptIn: true,
         });
-        expect(response.Code).toBe(0);
-        expect(response.Context?.Email).toBe(testEmail);
+        expect(response?.Email).toBe(testEmail);
 
-        const response2 = await send.subscribers.unsubscribe(testConfig.existingListId, response.Context.Email);
-        expect(response2.Code).toBe(0);
+        const response2 = await send.subscribers.unsubscribe(testConfig.existingListId, response.Email);
+        expect(response2).toBe(true);
 
     } catch (e) {
         console.error(e);

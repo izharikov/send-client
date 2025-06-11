@@ -2,7 +2,7 @@ import { apiFetch, apiUrl } from '../global/helpers'
 import { ApiConfig, ApiResponse, PagingResponse, RequestOptions, Prettify } from '../global/types'
 import { customFieldType, customSelectType, MailingList, mailingListStatuses } from './types'
 
-export type MailingListsResults = Prettify<PagingResponse<MailingList, 'MailingLists'>>;
+export type MailingListsResults = Prettify<PagingResponse & { MailingLists: MailingList[] }>;
 
 export class ListsClient {
     private readonly config: ApiConfig;
@@ -13,27 +13,27 @@ export class ListsClient {
         this.options = options;
     }
 
-    public async getAll(): Promise<ApiResponse<MailingListsResults>> {
+    public async getAll(): Promise<MailingListsResults> {
         const url = apiUrl(this.config, ['lists']);
         return ListsClient.populateMailingList(await apiFetch<MailingListsResults>(this.options, url));
     }
 
-    public async getWithPaging(page: number, pageSize: number): Promise<ApiResponse<MailingListsResults>> {
+    public async getWithPaging(page: number, pageSize: number): Promise<MailingListsResults> {
         const url = apiUrl(this.config, ['lists', page, pageSize]);
         return ListsClient.populateMailingList(await apiFetch<MailingListsResults>(this.options, url));
     }
 
-    public async getById(id: string): Promise<ApiResponse<MailingList>> {
+    public async getById(id: string): Promise<MailingList> {
         const url = apiUrl(this.config, ['lists', id, 'details']);
         const resp = await apiFetch<MailingList>(this.options, url);
-        if (resp.Context !== null) {
-            ListsClient.fillList(resp.Context);
+        if (resp !== null) {
+            ListsClient.fillList(resp);
         }
         return resp;
     }
 
-    private static populateMailingList(resp: ApiResponse<MailingListsResults>) {
-        const result = resp.Context?.MailingLists ?? [];
+    private static populateMailingList(resp: MailingListsResults) {
+        const result = resp?.MailingLists ?? [];
         for (const item of result) {
             ListsClient.fillList(item);
         }

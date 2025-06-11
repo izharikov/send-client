@@ -45,9 +45,8 @@ test('transactional email - template id - should send successfully', async () =>
     };
 
     const response = await send.transactional.sendEmail(request);
-    expect(response.Code).toBe(0);
-    expect(response.Context?.TotalAccepted).toBeGreaterThan(0);
-    expect(response.Context?.TotalExcluded).toBe(0);
+    expect(response?.TotalAccepted).toBeGreaterThan(0);
+    expect(response?.TotalExcluded).toBe(0);
 });
 
 
@@ -69,9 +68,8 @@ test('transactional email - manual content - should send successfully', async ()
             CampaignId: testConfig.transactionalCampaignId,
         };
         const response = await send.transactional.sendEmail(request);
-        expect(response.Code).toBe(0);
-        expect(response.Context?.TotalAccepted).toBeGreaterThan(0);
-        expect(response.Context?.TotalExcluded).toBe(0);
+        expect(response?.TotalAccepted).toBeGreaterThan(0);
+        expect(response?.TotalExcluded).toBe(0);
     } catch (e) {
         console.error(e);
         expect(true).toBe(false);

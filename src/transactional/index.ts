@@ -11,7 +11,7 @@ export class TransactionalClient {
         this.options = options;
     }
 
-    public async sendEmail(request: TransactionalCampaignRequest): Promise<ApiResponse<TransactionalCampaignResponse>> {
+    public async sendEmail(request: TransactionalCampaignRequest): Promise<TransactionalCampaignResponse> {
         const url = apiUrl(this.config, ['campaigns', 'transactional', 'send']);
         return await httpFetch<TransactionalCampaignResponse>(this.options, url, 'POST', request);
     }

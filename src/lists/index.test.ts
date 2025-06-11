@@ -6,8 +6,7 @@ const send = new SendClient(testApiConfig);
 
 test('get all - should return result', async () => {
     const response = await send.lists.getAll();
-    expect(response.Code).toBe(0);
-    expect(response.Context?.MailingLists.length).toBeGreaterThan(0);
+    expect(response?.MailingLists.length).toBeGreaterThan(0);
 });
 
 test('get all - should return error', async () => {
@@ -28,6 +27,5 @@ test('get by id - should return result', async () => {
         return;
     }
     const response = await send.lists.getById(testConfig.existingListId);
-    expect(response.Code).toBe(0);
-    expect(response.Context?.Name).toBeDefined();
+    expect(response?.Name).toBeDefined();
 });

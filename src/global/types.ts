@@ -66,7 +66,7 @@ export class ApiResponseError extends Error {
 
 export type ApiResponse<TResult> = SuccessResponse<TResult>;
 
-export type PagingResponse<TResult, TKey extends string> = {
+export type PagingResponse = {
     Paging: {
         PageSize: number;
         CurrentPage: number;
@@ -75,6 +75,4 @@ export type PagingResponse<TResult, TKey extends string> = {
         SortExpression: unknown;
         SortIsAscending: boolean;
     };
-} & {
-    [key in TKey]: TResult[];
-}
+};
