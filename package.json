@@ -1,6 +1,6 @@
 {
-  "name": "send-client",
-  "version": "1.0.0",
+  "name": "send-ts",
+  "version": "0.0.3",
   "description": "Sitecore Send API Client",
   "main": "src/index.ts",
   "scripts": {

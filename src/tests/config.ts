@@ -6,6 +6,8 @@ const testApiConfig: ApiConfig = {
 
 const testConfig = {
     existingListId: process.env.EXISTING_LIST_ID ?? '',
+    existingEmail: process.env.EXISTING_EMAIL ?? '',
+    transactionalCampaignId: process.env.TRANSACTIONAL_CAMPAIGN_ID ?? '',
 }
 
 export { testApiConfig, testConfig };

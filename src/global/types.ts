@@ -1,11 +1,12 @@
-export type Prettify<T> = {
-    [K in keyof T]: T[K];
-} & {};
-
 export type Pagination = {
     page?: number;
     pageSize?: number;
 }
+
+export type Prettify<T> = {
+    [K in keyof T]: T[K];
+} & {};
+
 
 export type Sorting = {
     sortBy?: 'Name' | 'Subject' | 'Status' | 'CreatedOn' | 'DeliveredOn';
@@ -63,7 +64,7 @@ export class ApiResponseError extends Error {
     }
 }
 
-export type ApiResponse<TResult> = SuccessResponse<TResult>
+export type ApiResponse<TResult> = SuccessResponse<TResult>;
 
 export type PagingResponse<TResult, TKey extends string> = {
     Paging: {

@@ -52,3 +52,5 @@ export class ListsClient {
         return list;
     }
 }
+
+export * from './types';

@@ -41,9 +41,9 @@ export const mailingListStatuses = getDynamicTypes({
 } as const);
 
 export type MailingList = {
-    Id: string;
+    ID: string;
     Name: string;
-    CctiveMemberCount: number;
+    ActiveMemberCount: number;
     BouncedMemberCount: number;
     RemovedMemberCount: number;
     UnsubscribedMemberCount: number;

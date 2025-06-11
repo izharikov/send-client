@@ -6,6 +6,16 @@ export type Query = Record<string, ApiUrlPart>;
 
 type InternalApiResponse<TResult> = ApiResponse<TResult> | ErrorResponse;
 
+export async function httpFetch<TResponse>(options: RequestOptions | undefined, input: RequestInfo, method: 'POST' | 'PUT' | 'DELETE', body: Record<string, unknown>): Promise<ApiResponse<TResponse>> {
+    return await apiFetch<TResponse>(options, input, {
+        method,
+        body: JSON.stringify(body),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+}
+
 export async function apiFetch<TResponse>(options: RequestOptions | undefined, input: RequestInfo, init?: RequestInit): Promise<ApiResponse<TResponse>> {
     const computedFetch = options?.fetch ?? fetch;
     const response = await computedFetch(input, init);
